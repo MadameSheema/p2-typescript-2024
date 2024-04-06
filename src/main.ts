@@ -1,4 +1,4 @@
-const CHARACHTERS_URL = 'https://rickandmortyapi.com/api/character';
+const CHARACTERS_URL = 'https://rickandmortyapi.com/api/character';
 
 class Character {
   constructor(
@@ -15,8 +15,14 @@ class Character {
 }
 
 const getCharacters = async(pageId: number) => {
-  const response = await fetch(`${CHARACHTERS_URL}?page=${pageId}`);
-  return await response.json()
+  const response = await fetch(`${CHARACTERS_URL}?page=${pageId}`);
+  const {results} = (await response.json()) as {results: any[]}
+  const characters: Array<Character> = [];
+  for (const { id, name, status, species, type, gender, origin, location, image} of results) {
+    characters.push(new Character(id, name, status, species, type, gender, origin.name, location.name, image))
+  }
+  
+  return characters
 }
 
 console.log(getCharacters(1));
