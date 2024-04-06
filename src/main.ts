@@ -28,4 +28,16 @@ const getCharacters = async(numberOfPages: number) => {
   return characters
 }
 
-console.log(getCharacters(3));
+
+export const render = (users: Array<Character>) => {
+  const characteraDiv = document.getElementById("characters");
+
+  const div = document.createElement("div");
+  div.textContent = users[0].name
+
+  characteraDiv?.append(div);
+};
+
+
+const characters = await getCharacters(3);
+render(characters);
