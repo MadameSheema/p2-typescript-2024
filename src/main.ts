@@ -1,3 +1,5 @@
+import { writeFile } from "fs/promises";
+
 const CHARACTERS_URL = 'https://rickandmortyapi.com/api/character';
 
 class Character {
@@ -28,23 +30,36 @@ const getCharacters = async(numberOfPages: number) => {
   return characters
 }
 
+const head = (title: string) => `
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+</head>`
 
-const render = (characters: Array<Character>) => {
-  const characteraDiv = document.getElementById("characters");
-
-  characteraDiv?.append(...characters.map(renderCharacter));
-
-};
-
-const renderCharacter = (character: Character) => {
-
-  const div = document.createElement("div");
-  div.textContent = character.name
-
-  return div
-
+const renderCharacters = (characters: Array<Character>) => {
+  let html = "";
+  for (const character of characters) {
+    html += `<div class="user">
+      <img src="${character.image}" />
+      <div class="data">
+        <div class="name">${character.name}</div>
+      </div>
+    </div>`;
+  }
+  return html;
 }
 
+const render = (characters: Array<Character>) => {
+  return `
+<html>
+  ${head("Rick&Morty Characters")}
+  <body>
+    ${renderCharacters(characters)}
+  </body>
+</html>`;
+};
 
 const characters = await getCharacters(3);
-render(characters);
+const html = render(characters);
+await writeFile('index.html', html);
