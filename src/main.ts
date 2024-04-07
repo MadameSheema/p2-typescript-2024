@@ -40,13 +40,24 @@ const head = (title: string) => `
 const renderCharacters = (characters: Array<Character>) => {
   let html = "";
   for (const character of characters) {
-    html += `<div class="user">
+    html += `<div class="character">
       <img src="${character.image}" />
       <div class="data">
         <div class="name">${character.name}</div>
       </div>
     </div>`;
   }
+  return html;
+}
+
+const renderCharacterDetails= (character: Character) => {
+  let html = 
+    `<div class="character">
+      <img src="${character.image}" />
+      <div class="data">
+        <div class="name">${character.name}</div>
+      </div>
+    </div>`;
   return html;
 }
 
@@ -63,3 +74,7 @@ const render = (characters: Array<Character>) => {
 const characters = await getCharacters(3);
 const html = render(characters);
 await writeFile('index.html', html);
+
+for(const character of characters) {
+  await writeFile(`${character.id}.html`, renderCharacterDetails(character))
+}
