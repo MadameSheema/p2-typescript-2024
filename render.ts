@@ -26,7 +26,13 @@ const renderCharacterDetails= (character: Character) => {
     `<div class="character">
       <img src="${character.image}" />
       <div class="data">
-        <div class="name">${character.name}</div>
+        <div>Name: ${character.name}</div>
+        <div>Status: ${character.status}</div>
+        <div>Species: ${character.species}</div>
+        <div>Type: ${character.type}</div>
+        <div>Gender: ${character.gender}</div>
+        <div>Origin: ${character.origin}</div>
+        <div>Location: ${character.location}</div>
       </div>
     </div>`;
   return html;
