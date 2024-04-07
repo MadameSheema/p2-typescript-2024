@@ -52,7 +52,7 @@ const renderIndex = (characters: Array<Character>) => {
     </header>
       <div class="characters-container">
         ${renderCharacters(characters)}
-      <div class="characters-container">  
+      </div>  
   </body>
 </html>`;
 };
