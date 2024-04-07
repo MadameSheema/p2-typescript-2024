@@ -40,12 +40,12 @@ const head = (title: string) => `
 const renderCharacters = (characters: Array<Character>) => {
   let html = "";
   for (const character of characters) {
-    html += `<div class="character">
+    html += `<a class="character" href=${character.id}.html>
       <img src="${character.image}" />
       <div class="data">
         <div class="name">${character.name}</div>
       </div>
-    </div>`;
+    </a>`;
   }
   return html;
 }
