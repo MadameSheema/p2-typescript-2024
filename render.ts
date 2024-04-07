@@ -23,22 +23,24 @@ const renderCharacters = (characters: Array<Character>) => {
 
 const renderCharacterDetails= (character: Character) => {
   let html = 
-    `<div class="character">
-      <img src="${character.image}" />
-      <div class="data">
-        <div>Name: ${character.name}</div>
-        <div>Status: ${character.status}</div>
-        <div>Species: ${character.species}</div>
-        <div>Type: ${character.type}</div>
-        <div>Gender: ${character.gender}</div>
-        <div>Origin: ${character.origin}</div>
-        <div>Location: ${character.location}</div>
-      </div>
+    `<div class="details-container">
+        <div class="character">
+          <img src="${character.image}" />
+        </div>  
+        <div class="data">
+          <div>Name: ${character.name}</div>
+          <div>Status: ${character.status}</div>
+          <div>Species: ${character.species}</div>
+          <div>Type: ${character.type}</div>
+          <div>Gender: ${character.gender}</div>
+          <div>Origin: ${character.origin}</div>
+          <div>Location: ${character.location}</div>
+        </div>
     </div>`;
   return html;
 }
 
-const render = (characters: Array<Character>) => {
+const renderIndex = (characters: Array<Character>) => {
   return `
 <html>
   ${head("Rick&Morty Characters")}
@@ -47,24 +49,40 @@ const render = (characters: Array<Character>) => {
       <div class="logo-container">
         <img src=/images/logo.png />
       </div>
+    </header>
       <div class="characters-container">
         ${renderCharacters(characters)}
       <div class="characters-container">  
+  </body>
+</html>`;
+};
+
+const renderCharacterPage = (character: Character) => {
+  return `
+<html>
+  ${head("Rick&Morty Characters")}
+  <body>
+    <header>
+        <div class="logo-container">
+          <img src=/images/logo.png />
+        </div>
     </header>
+        <div class="character-container">
+          ${renderCharacterDetails(character)}
+        </div>  
   </body>
 </html>`;
 };
 
 export const createIndexPageWithCharacters = async (characters: Array<Character>) => {
-    const html = render(characters);
+    const html = renderIndex(characters);
     await writeFile('index.html', html);
 }
 
 export const createCharactersPages = async (characters: Array<Character>) => {
     for(const character of characters) {
-        await writeFile(`${character.id}.html`, renderCharacterDetails(character))
-      }
-      
+        await writeFile(`${character.id}.html`, renderCharacterPage(character))
+      } 
 }
 
 
