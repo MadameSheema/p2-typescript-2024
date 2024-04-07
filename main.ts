@@ -35,17 +35,16 @@ const head = (title: string) => `
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
-    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="/images/portal.png" type="image/x-icon" sizes="128x128" />
 </head>`
 
 const renderCharacters = (characters: Array<Character>) => {
   let html = "";
   for (const character of characters) {
     html += `<a class="character" href=${character.id}.html>
-      <img src="${character.image}" />
-      <div class="data">
-        <div class="name">${character.name}</div>
-      </div>
+      <img class=img-list src="${character.image}" />
+      <div class="name">${character.name}</div>
     </a>`;
   }
   return html;
@@ -67,7 +66,14 @@ const render = (characters: Array<Character>) => {
 <html>
   ${head("Rick&Morty Characters")}
   <body>
-    ${renderCharacters(characters)}
+    <header>
+      <div class="logo-container">
+        <img src=/images/logo.png />
+      </div>
+      <div class="characters-container">
+        ${renderCharacters(characters)}
+      <div class="characters-container">  
+    </header>
   </body>
 </html>`;
 };
@@ -76,6 +82,7 @@ const characters = await getCharacters(3);
 const html = render(characters);
 await writeFile('index.html', html);
 
+/*
 for(const character of characters) {
   await writeFile(`${character.id}.html`, renderCharacterDetails(character))
-}
+}*/
