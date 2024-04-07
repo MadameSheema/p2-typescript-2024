@@ -15,7 +15,7 @@ const renderCharacters = (characters: Array<Character>) => {
   for (const character of characters) {
     html += `<a class="character" href=${character.id}.html>
       <img class=img-list src="${character.image}" />
-      <div class="name">${character.name}</div>
+      <p class="name">${character.name}</p>
     </a>`;
   }
   return html;
@@ -29,12 +29,12 @@ const renderCharacterDetails= (character: Character) => {
         </div>  
         <div class="data">
           <h2>${character.name}</h2>
-          <div><span class="bolded">Status:</span> ${character.status}</div>
-          <div><span class="bolded">Species:</span> ${character.species}</div>
-          <div><span class="bolded">Type:</span> ${character.type}</div>
-          <div><span class="bolded">Gender:</span> ${character.gender}</div>
-          <div><span class="bolded">Origin:</span> ${character.origin}</div>
-          <div><span class="bolded">Location:</span> ${character.location}</div>
+          <p><span class="bolded">Status:</span> ${character.status}</p>
+          <p><span class="bolded">Species:</span> ${character.species}</p>
+          <p><span class="bolded">Type:</span> ${character.type}</p>
+          <p><span class="bolded">Gender:</span> ${character.gender}</p>
+          <p><span class="bolded">Origin:</span> ${character.origin}</p>
+          <p><span class="bolded">Location:</span> ${character.location}</p>
         </div>
     </div>`;
   return html;
