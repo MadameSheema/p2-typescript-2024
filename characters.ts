@@ -19,11 +19,11 @@ export const getCharacters = async (numberOfPages: number): Promise<Character[]>
 
   for (let pageId = 1; pageId <= numberOfPages; pageId++) {
     const response = await fetch(`${CHARACTERS_URL}?page=${pageId}`);
-    const { results } = (await response.json()) as { results: any[] }
+    const { results } = (await response.json()) as { results: any[] };
     for (const { id, name, status, species, type, gender, origin, location, image } of results) {
-      characters.push(new Character(id, name, status, species, type, gender, origin.name, location.name, image))
+      characters.push(new Character(id, name, status, species, type, gender, origin.name, location.name, image));
     }
   }
 
-  return characters
+  return characters;
 }

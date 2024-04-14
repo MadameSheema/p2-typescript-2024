@@ -55,7 +55,7 @@ const pageTemplate = (html: string, divClass: string, path: string = '.'): strin
 
 export const createIndexPageWithCharacters = async (characters: Array<Character>): Promise<void> => {
   const charactersHtml = renderCharacters(characters);
-  const charactersPageHtml = pageTemplate(charactersHtml, 'characters-container')
+  const charactersPageHtml = pageTemplate(charactersHtml, 'characters-container');
   await writeFile('index.html', charactersPageHtml);
 }
 
