@@ -6,16 +6,16 @@ const renderCharacters = (characters: Array<Character>): string => {
   for (const character of characters) {
     html += `<a class="character" href="characters/${character.id}.html">
       <img class=img-list src="${character.image}" />
-      <p class="name">${character.name}</p>
+      <p>${character.name}</p>
     </a>`;
   }
   return html;
 }
 
-const renderCharacterDetails= (character: Character): string => {
-  let html = 
-    `<div class="details-container">
-        <div class="character">
+const renderCharacterDetails = (character: Character): string => {
+  return `
+    <div class="details-container">
+        <div>
           <img src="${character.image}" />
         </div>  
         <div class="data">
@@ -28,7 +28,6 @@ const renderCharacterDetails= (character: Character): string => {
           <p><span class="bolded">Location:</span> ${character.location}</p>
         </div>
     </div>`;
-  return html;
 }
 
 const pageTemplate = (html: string, divClass: string, path: string = '.'): string => {
@@ -54,27 +53,23 @@ const pageTemplate = (html: string, divClass: string, path: string = '.'): strin
   </html>`;
 }
 
-
-const renderIndex = (characters: Array<Character>): string => {
-  const charactersHtml = renderCharacters(characters)
-  return pageTemplate(charactersHtml, 'characters-container');
-};
-
-const renderCharacterPage = (character: Character): string => {
-  const charactersDetailsHtml = renderCharacterDetails(character);
-  return pageTemplate(charactersDetailsHtml, 'character-container', '..');
-};
-
 export const createIndexPageWithCharacters = async (characters: Array<Character>): Promise<void> => {
-    const html = renderIndex(characters);
-    await writeFile('index.html', html);
+  const charactersHtml = renderCharacters(characters);
+  const charactersPageHtml = pageTemplate(charactersHtml, 'characters-container')
+  await writeFile('index.html', charactersPageHtml);
 }
 
 export const createCharactersPages = async (characters: Array<Character>): Promise<void> => {
-    await mkdir('characters', { recursive: true });
-    for(const character of characters) {
-        await writeFile(`characters/${character.id}.html`, renderCharacterPage(character));
-      } 
+  let characterDetailsHtml = '';
+  let characterDetailsPageHtml = '';
+
+  await mkdir('characters', { recursive: true });
+
+  for (const character of characters) {
+    characterDetailsHtml = renderCharacterDetails(character);
+    characterDetailsPageHtml = pageTemplate(characterDetailsHtml, 'character-container', '..');
+    await writeFile(`characters/${character.id}.html`, characterDetailsPageHtml);
+  }
 }
 
 
