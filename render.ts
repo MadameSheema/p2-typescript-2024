@@ -1,5 +1,5 @@
-import { Character, getCharacters } from "./characters";
-import { writeFile } from "fs/promises";
+import { Character } from "./characters";
+import { mkdir, writeFile } from "fs/promises";
 
 const head = (title: string) => `
 <head>
@@ -81,7 +81,8 @@ export const createIndexPageWithCharacters = async (characters: Array<Character>
 
 export const createCharactersPages = async (characters: Array<Character>) => {
     for(const character of characters) {
-        await writeFile(`${character.id}.html`, renderCharacterPage(character))
+        await mkdir('characters', { recursive: true });
+        await writeFile(`characters/${character.id}.html`, renderCharacterPage(character))
       } 
 }
 
