@@ -4,17 +4,17 @@ export class Character {
     constructor(
       public id: number,
       public name: string,
-      public status: "Dead" | "Alive",
+      public status: string,
       public species: string,
       public type: string,
-      public gender: "Male" | "Female",
+      public gender: string,
       public origin: string,
       public location: string,
       public image: string,
     ){}
   }
   
-export const getCharacters = async(numberOfPages: number) => {
+export const getCharacters = async(numberOfPages: number): Promise<Character[]> =>{
     const characters: Array<Character> = [];
     
     for(let pageId=1; pageId<=numberOfPages; pageId++) {

@@ -1,19 +1,10 @@
 import { Character } from "./characters";
 import { mkdir, writeFile } from "fs/promises";
 
-const head = (title: string) => `
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="/images/portal.png" type="image/x-icon" sizes="128x128" />
-</head>`
-
-const renderCharacters = (characters: Array<Character>) => {
+const renderCharacters = (characters: Array<Character>): string => {
   let html = "";
   for (const character of characters) {
-    html += `<a class="character" href=${character.id}.html>
+    html += `<a class="character" href="characters/${character.id}.html">
       <img class=img-list src="${character.image}" />
       <p class="name">${character.name}</p>
     </a>`;
@@ -21,7 +12,7 @@ const renderCharacters = (characters: Array<Character>) => {
   return html;
 }
 
-const renderCharacterDetails= (character: Character) => {
+const renderCharacterDetails= (character: Character): string => {
   let html = 
     `<div class="details-container">
         <div class="character">
@@ -40,49 +31,49 @@ const renderCharacterDetails= (character: Character) => {
   return html;
 }
 
-const renderIndex = (characters: Array<Character>) => {
+const pageTemplate = (html: string, divClass: string, path: string = '.'): string => {
   return `
-<html>
-  ${head("Rick&Morty Characters")}
-  <body>
-    <header>
-      <div class="logo-container">
-        <img src=/images/logo.png />
-      </div>
-    </header>
-      <div class="characters-container">
-        ${renderCharacters(characters)}
-      </div>  
-  </body>
-</html>`;
-};
-
-const renderCharacterPage = (character: Character) => {
-  return `
-<html>
-  ${head("Rick&Morty Characters")}
-  <body>
-    <header>
+  <html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Rick&Morty Characters</title>
+      <link rel="stylesheet" href="${path}/styles.css">
+      <link rel="icon" href="${path}/images/portal.png" type="image/x-icon" sizes="128x128" />
+    </head>
+    <body>
+      <header>
         <div class="logo-container">
-          <img src=/images/logo.png />
+          <img src=${path}/images/logo.png />
         </div>
-    </header>
-        <div class="character-container">
-          ${renderCharacterDetails(character)}
+      </header>
+        <div class="${divClass}">
+          ${html}
         </div>  
-  </body>
-</html>`;
+    </body>
+  </html>`;
+}
+
+
+const renderIndex = (characters: Array<Character>): string => {
+  const charactersHtml = renderCharacters(characters)
+  return pageTemplate(charactersHtml, 'characters-container');
 };
 
-export const createIndexPageWithCharacters = async (characters: Array<Character>) => {
+const renderCharacterPage = (character: Character): string => {
+  const charactersDetailsHtml = renderCharacterDetails(character);
+  return pageTemplate(charactersDetailsHtml, 'character-container', '..');
+};
+
+export const createIndexPageWithCharacters = async (characters: Array<Character>): Promise<void> => {
     const html = renderIndex(characters);
     await writeFile('index.html', html);
 }
 
-export const createCharactersPages = async (characters: Array<Character>) => {
+export const createCharactersPages = async (characters: Array<Character>): Promise<void> => {
+    await mkdir('characters', { recursive: true });
     for(const character of characters) {
-        await mkdir('characters', { recursive: true });
-        await writeFile(`characters/${character.id}.html`, renderCharacterPage(character))
+        await writeFile(`characters/${character.id}.html`, renderCharacterPage(character));
       } 
 }
 
