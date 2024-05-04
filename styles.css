@@ -33,6 +33,15 @@ a {
     color: white;
 }
 
+.search-container input[type="text"] {
+    width: 300px;
+    padding: 10px; 
+    font-size: 14px;
+    outline: none;
+    border-radius: 20px;
+    margin-left: 30px;
+}
+
 .characters-container {
     display: flex;
     flex-flow: row wrap;

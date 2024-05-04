@@ -4,10 +4,10 @@ import { mkdir, writeFile } from "fs/promises";
 const renderCharacters = (characters: Array<Character>): string => {
   let html = '';
   for (const character of characters) {
-    html += `<a class="character" href="./characters/${character.id}.html">
-        <img class=img-list src="${character.image}" alt="${character.name} image"/>
-        <p>${character.name}</p>
-      </a>
+    html += `<a class="character" href="./characters/${character.id}.html" data-name="${character.name.toLowerCase()}">
+    <img class=img-list src="${character.image}" alt="${character.name} image"/>
+    <p>${character.name}</p>
+</a>
       `;         
   }
   return html;
@@ -31,14 +31,41 @@ const renderCharacterDetails = (character: Character): string => {
 }
 
 const renderPage = (html: string, divClass: string, path: string = '.'): string => {
+  const searchBoxHtml = divClass === 'characters-container' ? `
+    <div class="search-container">
+      <input type="text" oninput="filterCharacters()" placeholder="Search characters...">
+    </div>` : '';
+
   return `<!DOCTYPE html>
-<html>
+  <html>
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rick&Morty Characters</title>
     <link rel="stylesheet" href="${path}/styles.css">
     <link rel="icon" href="${path}/images/portal.png" type="image/x-icon" sizes="128x128" />
+    <script>
+      function filterCharacters() {
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+        const characters = document.getElementsByClassName('character');
+        
+        if(searchQuery === '') {
+         for (let character of characters) {
+            character.style.display = 'block';
+          }
+          return;
+        }
+
+        for (let character of characters) {
+          character.style.display = 'none';
+        }
+
+        const filteredCharacters = document.querySelectorAll('.character[data-name*="' + searchQuery + '"]');
+        for (let character of filteredCharacters) {
+          character.style.display = 'block';
+        }
+      }
+    </script>
   </head>
   <body>
     <header>
@@ -46,6 +73,7 @@ const renderPage = (html: string, divClass: string, path: string = '.'): string 
         <img src=${path}/images/logo.png alt="Rick&Morty logo"/>
       </div>
     </header>
+    ${searchBoxHtml}
     <div class="${divClass}">
       ${html}
     </div>  
