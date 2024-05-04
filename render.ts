@@ -33,7 +33,7 @@ const renderCharacterDetails = (character: Character): string => {
 const renderPage = (html: string, divClass: string, path: string = '.'): string => {
   const searchBoxHtml = divClass === 'characters-container' ? `
     <div class="search-container">
-      <input type="text" oninput="filterCharacters()" placeholder="Search characters...">
+      <input id=input type="text" oninput="filterCharacters()" placeholder="Search characters...">
     </div>` : '';
 
   return `<!DOCTYPE html>
@@ -46,7 +46,7 @@ const renderPage = (html: string, divClass: string, path: string = '.'): string 
     <link rel="icon" href="${path}/images/portal.png" type="image/x-icon" sizes="128x128" />
     <script>
       function filterCharacters() {
-        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+        const searchQuery = document.getElementById('input').value.toLowerCase();
         const characters = document.getElementsByClassName('character');
         
         if(searchQuery === '') {
