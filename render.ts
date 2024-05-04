@@ -36,21 +36,14 @@ const renderPage = (html: string, divClass: string, path: string = '.'): string 
       <input id=input type="text" oninput="filterCharacters()" placeholder="Search characters...">
     </div>` : '';
 
-  return `<!DOCTYPE html>
-  <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rick&Morty Characters</title>
-    <link rel="stylesheet" href="${path}/styles.css">
-    <link rel="icon" href="${path}/images/portal.png" type="image/x-icon" sizes="128x128" />
+  const scriptHtml = divClass === 'characters-container' ? `
     <script>
       function filterCharacters() {
         const searchQuery = document.getElementById('input').value.toLowerCase();
         const characters = document.getElementsByClassName('character');
         
         if(searchQuery === '') {
-         for (let character of characters) {
+        for (let character of characters) {
             character.style.display = 'block';
           }
           return;
@@ -65,7 +58,17 @@ const renderPage = (html: string, divClass: string, path: string = '.'): string 
           character.style.display = 'block';
         }
       }
-    </script>
+    </script>` : '';
+
+  return `<!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rick&Morty Characters</title>
+    <link rel="stylesheet" href="${path}/styles.css">
+    <link rel="icon" href="${path}/images/portal.png" type="image/x-icon" sizes="128x128" />
+    ${scriptHtml}
   </head>
   <body>
     <header>
