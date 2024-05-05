@@ -11,6 +11,10 @@ h2 {
     padding-bottom: 15px;
 }
 
+h2:hover {
+    cursor:pointer;
+}
+
 p {
     margin: 0px;
     padding: 0px
@@ -85,4 +89,8 @@ a {
 
 .bolded {
     font-weight: bold;
+}
+
+.hidden {
+    display: none;
 }

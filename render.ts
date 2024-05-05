@@ -19,14 +19,26 @@ const renderCharacterDetails = (character: Character): string => {
           <img src="${character.image}" alt="${character.name} image"/>
         </div>  
         <div class="data">
-          <h2>${character.name}</h2>
-          <p><span class="bolded">Status:</span> ${character.status}</p>
-          <p><span class="bolded">Species:</span> ${character.species}</p>
-          <p><span class="bolded">Type:</span> ${character.type}</p>
-          <p><span class="bolded">Gender:</span> ${character.gender}</p>
-          <p><span class="bolded">Origin:</span> ${character.origin}</p>
-          <p><span class="bolded">Location:</span> ${character.location}</p>
+          <h2>&gt; ${character.name}</h2>
+          <p class="hidden"><span class="bolded">Status:</span> ${character.status}</p>
+          <p class="hidden"><span class="bolded">Species:</span> ${character.species}</p>
+          <p class="hidden"><span class="bolded">Type:</span> ${character.type}</p>
+          <p class="hidden"><span class="bolded">Gender:</span> ${character.gender}</p>
+          <p class="hidden"><span class="bolded">Origin:</span> ${character.origin}</p>
+          <p class="hidden"><span class="bolded">Location:</span> ${character.location}</p>
         </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var toggle = document.querySelector('h2');
+            var paragraphs = document.querySelectorAll('.hidden');
+          
+            toggle.addEventListener('click', function() {
+              paragraphs.forEach(function(p) {
+                p.classList.toggle('hidden');
+              });
+            });
+          });
+        </script>
       </div>`;
 }
 
